@@ -1,0 +1,10 @@
+---
+# vars for mediaTUM
+
+mediatum_admin_user: mediatum
+mediatum_port: 8081
+mediatum_basedir: /home/mediatum/ # where the mediatum folder will reside
+mediatum_media_dir: /home/mediatum/media # where uploaded media files will be
+mediatum_search_dir: /home/mediatum/media/search
+mediatum_logdir: /home/mediatum/logging
+mediatum_smtp_server: somemail.example.com

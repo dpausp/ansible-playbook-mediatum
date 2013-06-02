@@ -1,0 +1,4 @@
+*.pub
+secret_passwords.yml
+hosts
+*~

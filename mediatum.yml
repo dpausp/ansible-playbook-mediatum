@@ -1,0 +1,12 @@
+---
+# call role mediatum
+
+- name: deploy MediaTUM with deps
+  hosts: mediatum
+  vars_files:
+    - secret_passwords.yml
+  user: $mediatum_admin_user
+  roles:
+    - mediatum
+
+# vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

@@ -1,0 +1,95 @@
+[host]
+name={{ ansible_hostname }}
+port={{ mediatum_port }}
+threads=8
+
+[config]
+reindex_time=3600
+searcher=fts3  # fts3|magpy|<empty>
+oaibasename=mediatum repository
+
+[ftp]
+activate=false
+port=8021
+
+[paths]
+datadir={{ mediatum_media_dir }}
+searchstore={{ mediatum_search_dir }}
+tempdir=/tmp/
+
+[database]
+type={{ mediatum_db_type }} # sqlite or mysql
+dbhost=localhost
+#dbport=3306 # default port for mysql
+db={{ mediatum_db_name }}
+user={{ mediatum_db_user }}
+passwd={{ mediatum_db_pass }}
+#cache_size=100000
+
+[ldap]
+activate=false
+server=serverurl
+password=password
+searchfilter=authLogin=[username]
+username=
+basedn=
+attributes=attribute,attribute1
+user_login=attribute
+user_lastname=attribute
+user_firstname=attribute
+user_email=attribute
+user_comment=attribute
+user_group=attribute
+user_org=attribute
+
+[archive]
+activate=false
+class=#
+interval=3600
+
+[z3950]
+activate=false
+port=2101
+
+[marc21]
+mapping_name=marc21
+
+[user]
+adminuser=Administrator
+guestuser=Gast
+admingroup=Administration
+passwd=ABC
+
+[admin]
+pageitems=10
+
+[logging]
+path={{ mediatum_logdir }}
+file.everything={{ mediatum_logdir }}/everything.log
+file.database={{ mediatum_logdir }}/database.log
+file.backend={{ mediatum_logdir }}/backend.log
+file.frontend={{ mediatum_logdir }}/frontend.log
+file.editor={{ mediatum_logdir }}/editor.log
+file.usertracing={{ mediatum_logdir }}/user.log
+file.athana={{ mediatum_logdir }}/athana.log
+file.errors={{ mediatum_logdir }}/errors.log
+
+[server]
+mail={{ mediatum_smtp_server }}
+
+[email]
+admin=admin@mediatum.org
+workflow=admin@mediatum.org
+
+[oai]
+formats=mediatum # format for testing
+
+schema.mediatum=http://mediatum/no-schema-defined
+namespace.mediatum=http://www.mediatum.org/oai/mediatum
+
+[plugins]
+
+[i18n]
+languages=en,de
+en=i18n/mediatum-en.po
+de=i18n/mediatum-de.po

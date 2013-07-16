@@ -1,5 +1,5 @@
 ---
-# install mediatum (tasks executed as root)
+# install mediatum (some tasks are executed with sudo root)
 
 - name: install build essentials
   apt: pkg=build-essential state=present
@@ -12,7 +12,6 @@
     - python-imaging
     - python-ldap
     - python-pypdf
-  sudo: yes
 
 - name: install python package for mysql
   apt: pkg=python-mysqldb state=present
@@ -24,7 +23,6 @@
 
 - name: install pip
   apt: pkg=python-pip state=present
-  sudo: yes
 
 - name: install python packages via pip
   pip: name={{ item }} state=present
@@ -32,8 +30,6 @@
     - python-Levenshtein
     - pymarc
     - mollyZ3950
-  sudo: yes
-
 
 - name: install other media libs / tools
   apt: pkg={{ item }} state=present
@@ -43,7 +39,6 @@
     - libart-2.0-dev
     - libgif-dev
     - imagemagick
-  sudo: yes
 
 - name: install ffmpeg
   apt: pkg=ffmpeg state=present
@@ -51,35 +46,60 @@
 - name: install cvs
   apt: pkg=cvs state=present
 
+- name: create mediatum group
+  group: name={{ mediatum_group }} state=present
+
+- name: create admin user / add to mediatum group
+  user: name={{ mediatum_admin_user }} groups={{ mediatum_group }} state=present append=true
+  
+- name: create mediatum basedir
+  file: name={{ mediatum_basedir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750
+
 - name: login to sourceforge CVS
   command: cvs -d:pserver:anonymous:@mediatum.cvs.sourceforge.net:/cvsroot/mediatum login
 
 - name: get mediatum CVS
   command: chdir={{ mediatum_basedir }} cvs -z3 -d:pserver:anonymous@mediatum.cvs.sourceforge.net:/cvsroot/mediatum co -P mediatum
 
-- name: make media dir
-  file: path={{ mediatum_media_dir }} state=directory
-
-- name: make logging dir
-  file: path={{ mediatum_logdir }} state=directory
-
-- name: make search dir
-  file: path={{ mediatum_search_dir }} state=directory
-
 - name: set mediatum_dir fact
   set_fact: mediatum_dir={{ mediatum_basedir }}/mediatum
+  tags:
+    - check
 
-- name: prepare mediaTUM config file
-  template: src=mediatum.cfg.j2 dest={{ mediatum_dir }}/mediatum.cfg
+- name: fix permissions for mediatum dir
+  file: name={{ mediatum_dir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750 recurse=yes 
 
-- name: run checks
-  command: chdir={{ mediatum_dir }} python bin/checkrequirements.py
+- name: create mediatum server user
+  user: name={{ mediatum_server_user }} group={{ mediatum_group }} home={{ mediatum_basedir }} state=present
 
-#- name: kill running mediaTUM server
-#  shell: chdir={{ mediatum_dir }} killall 'python start.py'
-#  ignore_errors: yes
+- name: make media dir
+  file: path={{ mediatum_media_dir }} state=directory owner={{ mediatum_server_user }} group={{ mediatum_group }} mode=0750
 
-#- name: start mediaTUM server
-#  shell: chdir={{ mediatum_dir }} python start.py &
+- name: make logging dir
+  file: path={{ mediatum_logdir }} state=directory owner={{ mediatum_server_user }} group={{ mediatum_group }} mode=0750
+
+- name: make search dir
+  file: path={{ mediatum_search_dir }} state=directory owner={{ mediatum_server_user }} group={{ mediatum_group }} mode=0750
+
+- name: create mediaTUM config file
+  template: src=mediatum.cfg.j2 dest={{ mediatum_dir }}/mediatum.cfg owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750
+
+- name: create mediaTUM initscript
+  template: src=mediatum_initscript.j2 dest=/etc/init.d/mediatum owner=root group=adm mode=0750
+  tags: 
+    - init
+
+#- name: run checks
+#  command: chdir={{ mediatum_dir }} python bin/checkrequirements.py
+#  sudo: yes
+#  sudo_user: $mediatum_server_user
+#  tags:
+#    - check
+
+- name: add mediaTUM initscript to runlevels to start on boot
+  service: name=mediatum enabled=yes
+
+- name: start mediaTUM
+  service: name=mediatum state=started
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

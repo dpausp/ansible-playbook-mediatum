@@ -1,6 +1,5 @@
 ---
 # vars which are needed by all playbook parts
-
 mediatum_db_type: mysql
 mediatum_db_name: mediatum
 mediatum_db_user: mediatum

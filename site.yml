@@ -1,12 +1,5 @@
 ---
-# This playbook deploys the whole application stack in this site.  
-
-
-- name: apply common configuration to all nodes
-  hosts: all
-  user: root
-  roles:
-    - common
+# This playbook deploys everything needed for mediatum
 
 - include: mysql.yml
   when: mediatum_db_type == "mysql"

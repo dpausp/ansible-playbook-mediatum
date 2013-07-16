@@ -3,3 +3,8 @@ somehost
 
 [mediatum]
 somehost
+
+[all:vars]
+admin_user=someuser
+admin_user_pubkeyfile=/home/someuser/.ssh/id_rsa.pub
+

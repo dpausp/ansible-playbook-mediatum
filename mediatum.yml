@@ -5,7 +5,7 @@
   hosts: mediatum
   vars_files:
     - secret_passwords.yml
-  user: $mediatum_admin_user
+  sudo: yes
   roles:
     - mediatum
 

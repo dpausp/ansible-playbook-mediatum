@@ -1,0 +1,69 @@
+#!/bin/sh
+ 
+### BEGIN INIT INFO
+# Provides:          mediatum
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the mediaTUM server
+# Description: starts the mediaTUM server
+### END INIT INFO
+ 
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+### EDIT HERE
+PREFIX_PATH={{ mediatum_basedir }}/mediatum
+LOGDIR={{ mediatum_logdir }}
+### / EDIT HERE
+
+SCRIPT="start.py"
+LOGOPTS=" >> $LOGDIR/process.stdout 2>> $LOGDIR/proccess.stderr"
+PIDFILE=$PREFIX_PATH/mediatum.pid
+NAME="start.py"
+DESC=mediaTUM
+MEDIATUM_USER={{ mediatum_server_user }}
+ 
+#test -x $DAEMON || exit 0
+ 
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.2-14) to ensure that this file is present
+# and status_of_proc is working.
+. /lib/lsb/init-functions
+
+set -e
+
+case "$1" in
+  start)
+        log_begin_msg "Starting $DESC"
+        start-stop-daemon --start --chdir=$PREFIX_PATH --chuid $MEDIATUM_USER -m --pidfile $PIDFILE \
+            --background --no-close --exec "/usr/bin/python" $SCRIPT -- >> $LOGDIR/process.out 2>&1
+        log_end_msg 0
+        ;;  
+  stop)
+        log_begin_msg "Stopping $DESC"
+        start-stop-daemon --stop --pidfile $PIDFILE
+        rm -f $PIDFILE
+        log_end_msg 0
+        ;;  
+  restart)
+        log_begin_msg "Restarting $DESC:"
+        log_progress_msg "stopping server..."
+        start-stop-daemon --stop --pidfile $PIDFILE
+        log_progress_msg "starting server"
+        start-stop-daemon --start --chdir=$PREFIX_PATH --chuid $MEDIATUM_USER -m --pidfile $PIDFILE \
+            --background --no-close --exec "/usr/bin/python" $SCRIPT -- >> $LOGDIR/process.out 2>&1
+	log_end_msg 0
+        ;;
+  status)
+        status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+      ;;
+  *)  
+        N=/etc/init.d/mediatum
+        echo "Usage: $N {start|stop|restart|status}" >&2
+        exit 1
+        ;;  
+esac
+ 
+exit 0
+

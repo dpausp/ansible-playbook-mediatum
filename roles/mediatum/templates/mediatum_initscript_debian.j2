@@ -20,11 +20,9 @@ LOGDIR={{ mediatum_logdir }}
 SCRIPT="start.py"
 LOGOPTS=" >> $LOGDIR/process.stdout 2>> $LOGDIR/proccess.stderr"
 PIDFILE=$PREFIX_PATH/mediatum.pid
-NAME="start.py"
+DAEMON="/usr/bin/python"
 DESC=mediaTUM
 MEDIATUM_USER={{ mediatum_server_user }}
- 
-#test -x $DAEMON || exit 0
  
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.2-14) to ensure that this file is present
@@ -33,30 +31,64 @@ MEDIATUM_USER={{ mediatum_server_user }}
 
 set -e
 
+
+start_daemon() {
+	if [ -f $PIDFILE ]; then
+		log_progress_msg "(already running)"
+		log_end_msg 0
+		exit 0
+	fi
+        start-stop-daemon --start --chdir=$PREFIX_PATH --chuid $MEDIATUM_USER -m --pidfile $PIDFILE \
+            --background --no-close --exec $DAEMON $SCRIPT -- >> $LOGDIR/process.out 2>&1
+	for i in 0 1 2 3 4 5 6 7 8 9; do
+		curl -s localhost:8081 > /dev/null && break
+		log_action_cont_msg "$i"
+		sleep 0.5
+		if [ $i -eq 9 ]; then 
+			return 1
+		fi
+	done
+}
+
+stop_daemon() {
+	if [ ! -f $PIDFILE ]; then
+		log_progress_msg "(not running)"
+		log_end_msg 0
+		exit 0
+	fi
+        start-stop-daemon --stop --pidfile $PIDFILE
+	for i in 0 1 2 3 4 5 6 7 8 9; do
+		curl -s localhost:8081 > /dev/null || break
+		log_action_cont_msg "$i"
+		sleep 0.5
+		if [ $i -eq 9 ]; then 
+			return 1
+		fi
+	done
+        rm -f $PIDFILE
+}
+
 case "$1" in
   start)
-        log_begin_msg "Starting $DESC"
-        start-stop-daemon --start --chdir=$PREFIX_PATH --chuid $MEDIATUM_USER -m --pidfile $PIDFILE \
-            --background --no-close --exec "/usr/bin/python" $SCRIPT -- >> $LOGDIR/process.out 2>&1
-        log_end_msg 0
+        log_action_begin_msg "Starting $DESC"
+	start_daemon
+        log_action_end_msg $?
         ;;  
   stop)
-        log_begin_msg "Stopping $DESC"
-        start-stop-daemon --stop --pidfile $PIDFILE
-        rm -f $PIDFILE
-        log_end_msg 0
+        log_action_begin_msg "Stopping $DESC"
+	stop_daemon
+        log_action_end_msg $?
         ;;  
   restart)
-        log_begin_msg "Restarting $DESC:"
-        log_progress_msg "stopping server..."
-        start-stop-daemon --stop --pidfile $PIDFILE
-        log_progress_msg "starting server"
-        start-stop-daemon --start --chdir=$PREFIX_PATH --chuid $MEDIATUM_USER -m --pidfile $PIDFILE \
-            --background --no-close --exec "/usr/bin/python" $SCRIPT -- >> $LOGDIR/process.out 2>&1
-	log_end_msg 0
+        log_action_begin_msg "Restarting $DESC"
+        log_action_cont_msg "stopping server"
+	stop_daemon || log_action_end_msg $?
+        log_action_cont_msg "starting server"
+	start_daemon
+	log_action_end_msg $?
         ;;
   status)
-        status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+	status_of_proc -p $PIDFILE $DAEMON $SCRIPT
       ;;
   *)  
         N=/etc/init.d/mediatum
@@ -66,4 +98,3 @@ case "$1" in
 esac
  
 exit 0
-

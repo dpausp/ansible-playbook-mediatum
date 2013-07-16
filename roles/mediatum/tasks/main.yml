@@ -96,6 +96,12 @@
   tags: 
     - init
 
+- name: add mediaTUM initscript to runlevels to start on boot (debian)
+  service: name=mediatum enabled=yes
+  when: ansible_distribution == "Debian"
+  tags: 
+    - init
+
 #- name: run checks
 #  command: chdir={{ mediatum_dir }} python bin/checkrequirements.py
 #  sudo: yes
@@ -103,13 +109,7 @@
 #  tags:
 #    - check
 
-- name: add mediaTUM initscript to runlevels to start on boot (debian)
-  service: name=mediatum enabled=yes
-  when: ansible_distribution == "Debian"
-  tags: 
-    - init
-
-- name: start mediaTUM (debian)
+- name: start mediaTUM
   service: name=mediatum state=started
   tags: 
     - init

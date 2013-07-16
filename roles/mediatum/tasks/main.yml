@@ -84,8 +84,15 @@
 - name: create mediaTUM config file
   template: src=mediatum.cfg.j2 dest={{ mediatum_dir }}/mediatum.cfg owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750
 
-- name: create mediaTUM initscript
-  template: src=mediatum_initscript.j2 dest=/etc/init.d/mediatum owner=root group=adm mode=0750
+- name: create mediaTUM initscript (debian)
+  template: src=mediatum_initscript_debian.j2 dest=/etc/init.d/mediatum owner=root group=adm mode=0750
+  when: ansible_distribution == "Debian"
+  tags: 
+    - init
+
+- name: create mediaTUM upstart conf (ubuntu)
+  template: src=mediatum_upstart.conf.j2 dest=/etc/init/mediatum.conf owner=root group=adm mode=0750
+  when: ansible_distribution == "Ubuntu"
   tags: 
     - init
 
@@ -96,10 +103,15 @@
 #  tags:
 #    - check
 
-- name: add mediaTUM initscript to runlevels to start on boot
+- name: add mediaTUM initscript to runlevels to start on boot (debian)
   service: name=mediatum enabled=yes
+  when: ansible_distribution == "Debian"
+  tags: 
+    - init
 
-- name: start mediaTUM
+- name: start mediaTUM (debian)
   service: name=mediatum state=started
+  tags: 
+    - init
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

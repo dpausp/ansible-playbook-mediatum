@@ -2,7 +2,9 @@
 # call role mediatum
 
 - name: deploy MediaTUM with deps
-  hosts: mediatum
+  hosts: $group
+  vars:
+    group: mediatum
   vars_files:
     - secret_passwords.yml
   sudo: yes

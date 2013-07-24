@@ -30,6 +30,7 @@
     - python-Levenshtein
     - pymarc
     - mollyZ3950
+    - requests
 
 - name: install other media libs / tools
   apt: pkg={{ item }} state=present
@@ -46,8 +47,11 @@
 - name: install curl
   apt: pkg=curl state=present
 
-- name: install cvs
-  apt: pkg=cvs state=present
+- name: install git
+  apt: pkg=git state=present
+
+- name: stop mediaTUM
+  service: name=mediatum state=stopped
 
 - name: create mediatum group
   group: name={{ mediatum_group }} state=present
@@ -58,19 +62,22 @@
 - name: create mediatum basedir
   file: name={{ mediatum_basedir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750
 
-- name: login to sourceforge CVS
-  command: cvs -d:pserver:anonymous:@mediatum.cvs.sourceforge.net:/cvsroot/mediatum login
-
-- name: get mediatum CVS
-  command: chdir={{ mediatum_basedir }} cvs -z3 -d:pserver:anonymous@mediatum.cvs.sourceforge.net:/cvsroot/mediatum co -P mediatum
-
 - name: set mediatum_dir fact
   set_fact: mediatum_dir={{ mediatum_basedir }}/mediatum
   tags:
     - check
+    - repo
 
-- name: fix permissions for mediatum dir
-  file: name={{ mediatum_dir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750 recurse=yes 
+- name: clone / pull mediaTUM git repository
+  git: repo={{ mediatum_git_repo }} version={{ mediatum_git_version }} dest={{ mediatum_dir }} update={{ mediatum_git_update }}
+  tags:
+    - repo
+
+- name: fix ownership for mediatum dir
+  file: name={{ mediatum_dir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} recurse=yes 
+
+- name: fix permissions (o-rwx) for mediatum dir
+  command: chmod -R o-rwx {{ mediatum_dir }} 
 
 - name: create mediatum server user
   user: name={{ mediatum_server_user }} group={{ mediatum_group }} home={{ mediatum_basedir }} state=present

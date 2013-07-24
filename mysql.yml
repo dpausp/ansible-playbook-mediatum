@@ -2,7 +2,9 @@
 # call role db
 
 - name: deploy Database
-  hosts: db
+  hosts: $group
+  vars: 
+    group: db
   vars_files:
     - secret_passwords.yml
   roles:

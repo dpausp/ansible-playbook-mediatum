@@ -31,7 +31,7 @@ If the files in `group\_vars` are left unchanged, mediaTUM will be installed for
   
 Important:
 
-    Currently, only installing all components on a single host is supported. Please specify the same host for all sections in the hosts file, like in the hosts.example file.
+Currently, only installing all components on a single host is supported. Please specify the same host for all sections in the hosts file, like in the hosts.example file.
 
 Host Preparation
 ----------------
@@ -51,3 +51,8 @@ Running The Playbook
     ansible-playbook -i hosts site.yml -K
 
 The -K option asks for a sudo password. For passwordless sudo (if allowed), don't specify -K.
+
+It's possible to specify the group which is used on the cmdline:
+
+    ansible-playbook -i hosts -e 'group=mediatum_new' site.yml -K
+    

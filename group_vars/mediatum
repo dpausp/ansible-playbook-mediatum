@@ -9,6 +9,6 @@ mediatum_media_dir: /srv/www/mediatum/media # where uploaded media files will be
 mediatum_search_dir: /srv/www/mediatum/media/search
 mediatum_logdir: /srv/www/mediatum/logging
 mediatum_smtp_server: somemail.example.com
-mediatum_git_repo: 'http://10.0.2.101/mediatum.git'
+mediatum_git_repo: 'http://mediatumdev.ub.tum.de/mediatum.git'
 mediatum_git_version: master
 mediatum_git_update: yes

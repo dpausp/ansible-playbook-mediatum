@@ -52,6 +52,7 @@
 
 - name: stop mediaTUM
   service: name=mediatum state=stopped
+  ignore_errors: yes
 
 - name: create mediatum group
   group: name={{ mediatum_group }} state=present

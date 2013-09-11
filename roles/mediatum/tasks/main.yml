@@ -58,7 +58,7 @@
   group: name={{ mediatum_group }} state=present
 
 - name: create admin user / add to mediatum group
-  user: name={{ mediatum_admin_user }} groups={{ mediatum_group }} state=present append=true
+  user: name={{ mediatum_admin_user }} groups={{ mediatum_group }} group={{ mediatum_group }} state=present append=true
   
 - name: create mediatum basedir
   file: name={{ mediatum_basedir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750

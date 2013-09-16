@@ -60,6 +60,12 @@
 - name: create admin user / add to mediatum group
   user: name={{ mediatum_admin_user }} groups={{ mediatum_group }} group={{ mediatum_group }} state=present append=true
   
+- name: give passwordless sudo to mediatum_adm (only for development machines!)
+  lineinfile: "dest=/etc/sudoers state=present 
+    regexp='^mediatum_adm ALL= NOPASSWD' 
+    line='mediatum_adm ALL= NOPASSWD: ALL'"
+  when: mediatum_development
+
 - name: create mediatum basedir
   file: name={{ mediatum_basedir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750
 

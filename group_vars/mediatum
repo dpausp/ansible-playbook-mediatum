@@ -12,3 +12,4 @@ mediatum_smtp_server: somemail.example.com
 mediatum_git_repo: 'http://mediatumdev.ub.tum.de/mediatum.git'
 mediatum_git_version: master
 mediatum_git_update: yes
+mediatum_development: no

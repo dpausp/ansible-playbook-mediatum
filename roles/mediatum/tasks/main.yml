@@ -58,33 +58,40 @@
   group: name={{ mediatum_group }} state=present
 
 - name: create admin user / add to mediatum group
-  user: name={{ mediatum_admin_user }} groups={{ mediatum_group }} group={{ mediatum_group }} state=present append=true
+  user: name={{ mediatum_admin_user }} groups={{ mediatum_group }} group={{ mediatum_group }} state=present append=true shell=/bin/bash
   
 - name: give passwordless sudo to mediatum_adm (only for development machines!)
   lineinfile: "dest=/etc/sudoers state=present 
     regexp='^mediatum_adm ALL= NOPASSWD' 
     line='mediatum_adm ALL= NOPASSWD: ALL'"
-  when: mediatum_development
+  when: mediatum_development == "yes"
 
 - name: create mediatum basedir
   file: name={{ mediatum_basedir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0750
+  notify: restart mediaTUM
 
 - name: set mediatum_dir fact
   set_fact: mediatum_dir={{ mediatum_basedir }}/mediatum
   tags:
-    - check
-    - repo
+    - pull
 
 - name: clone / pull mediaTUM git repository
   git: repo={{ mediatum_git_repo }} version={{ mediatum_git_version }} dest={{ mediatum_dir }} update={{ mediatum_git_update }}
   tags:
-    - repo
+    - pull
+  notify: restart mediaTUM
 
 - name: fix ownership for mediatum dir
   file: name={{ mediatum_dir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} recurse=yes 
+  tags:
+    - pull
+  notify: restart mediaTUM
 
 - name: fix permissions (o-rwx) for mediatum dir
   command: chmod -R o-rwx {{ mediatum_dir }} 
+  tags:
+    - pull
+  notify: restart mediaTUM
 
 - name: create mediatum server user
   user: name={{ mediatum_server_user }} group={{ mediatum_group }} home={{ mediatum_basedir }} state=present

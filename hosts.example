@@ -5,6 +5,7 @@ somehost
 somehost
 
 [all:vars]
-admin_user=someuser
+# used by access.yml
+admin_user=mediatum_adm
 admin_user_pubkeyfile=/home/someuser/.ssh/id_rsa.pub
 

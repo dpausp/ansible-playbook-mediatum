@@ -3,3 +3,4 @@ secret_passwords.yml
 hosts
 ansible.sqlite
 *~
+group_vars/all

@@ -1,0 +1,20 @@
+---
+# defaults for the mediatum role
+# if you want to override these variables, do it in group_vars/all
+mediatum_db_name: mediatum # also defined in role defauls for db
+mediatum_db_user: mediatum # also defined in role defauls for db
+mediatum_group: mediatum
+mediatum_server_user: mediatum
+mediatum_port: 8081
+mediatum_basedir: /srv/mediatum/ # where the mediatum folder will reside
+mediatum_media_dir: /srv/mediatum/media # where uploaded media files will be
+mediatum_search_dir: /srv/mediatum/media/search
+mediatum_logdir: /srv/mediatum/logging
+mediatum_smtp_server: somemail.example.com
+mediatum_git_repo: 'git://mediatumdev.ub.tum.de/mediatum.git'
+mediatum_git_version: master
+mediatum_git_update: yes
+mediatum_development: no
+
+
+# vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

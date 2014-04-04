@@ -2,7 +2,7 @@
 # call role mediatum
 
 - name: deploy MediaTUM with deps
-  hosts: $group
+  hosts: "{{ group }}"
   vars:
     group: mediatum
   vars_files:

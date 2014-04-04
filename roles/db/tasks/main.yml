@@ -16,5 +16,5 @@
   mysql_db: name={{ mediatum_db_name }} state=present
 
 - name: Create DB User for mediaTUM
-  mysql_user: name=$mediatum_db_user password=$mediatum_db_pass priv=mediatum.*:ALL state=present
+  mysql_user: name={{ mediatum_db_user }} password={{ mediatum_db_pass }} priv=mediatum.*:ALL state=present
 

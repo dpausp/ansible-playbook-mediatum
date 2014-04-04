@@ -9,7 +9,7 @@ A current ansible from Github is required.
 Installing Ansible
 ------------------
 
-Follow the installation instructions at http://docs.ansible.com/intro\_installation.html#installing-the-control-machine
+Follow the installation instructions at http://docs.ansible.com/intro_installation.html#installing-the-control-machine
 
 Example: a simple installation via git on a Debian machine:
     

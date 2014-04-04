@@ -1,9 +1,11 @@
 ---
 # defaults for the mediatum role
 # if you want to override these variables, do it in group_vars/all
-mediatum_db_name: mediatum # also defined in role defauls for db
-mediatum_db_user: mediatum # also defined in role defauls for db
+mediatum_db_name: mediatum # also defined in role defaults for db
+mediatum_db_user: mediatum # also defined in role defaults for db
+mediatum_db_type: mysql # also defined in role defaults for db
 mediatum_group: mediatum
+mediatum_admin_user: mediatum_adm
 mediatum_server_user: mediatum
 mediatum_port: 8081
 mediatum_basedir: /srv/mediatum/ # where the mediatum folder will reside

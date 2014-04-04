@@ -1,20 +1,6 @@
 ---
-# this tasks install a MySQL server and creates the mediaTUM DB user and database.
+- include: mysql.yml
+  when: mediatum_db_type == "mysql"
 
-- name: Install MySQL server and additional packages
-  apt: pkg={{ item }} state=present
-  with_items:
-    - mysql-server
 
-- name: Start MySQL service
-  service: name=mysql state=started enabled=true
-
-- name: install python package for mysql
-  apt: pkg=python-mysqldb state=present
-
-- name: Create database for mediaTUM
-  mysql_db: name={{ mediatum_db_name }} state=present
-
-- name: Create DB User for mediaTUM
-  mysql_user: name={{ mediatum_db_user }} password={{ mediatum_db_pass }} priv=mediatum.*:ALL state=present
-
+# vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

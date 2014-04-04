@@ -1,9 +1,7 @@
 ---
 # This playbook deploys everything needed for mediatum
-
-- include: mysql.yml
-  when: mediatum_db_type == "mysql"
-
+- include: db.yml
 - include: mediatum.yml
+
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

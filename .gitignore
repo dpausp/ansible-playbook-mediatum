@@ -4,3 +4,5 @@ hosts
 ansible.sqlite
 *~
 group_vars/all
+.vagrant/
+vagrant_ansible_inventory_default

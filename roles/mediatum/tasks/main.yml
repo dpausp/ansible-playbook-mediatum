@@ -21,6 +21,19 @@
   apt: pkg=python-sqlite state=present
   when: mediatum_db_type == "sqlite"
 
+- name: install ffmpeg
+  apt: pkg=ffmpeg state=present
+
+- name: install some media libs / tools
+  apt: pkg={{ item }} state=present
+  with_items:
+    - xpdf
+    - libjpeg8-dev
+    - libart-2.0-dev
+    - libgif-dev
+    - imagemagick
+    - graphviz
+
 - name: install pip
   apt: pkg=python-pip state=present
 
@@ -31,18 +44,7 @@
     - pymarc
     - mollyZ3950
     - requests
-
-- name: install other media libs / tools
-  apt: pkg={{ item }} state=present
-  with_items:
-    - xpdf
-    - libjpeg8-dev
-    - libart-2.0-dev
-    - libgif-dev
-    - imagemagick
-
-- name: install ffmpeg
-  apt: pkg=ffmpeg state=present
+    - pydot
 
 - name: install curl
   apt: pkg=curl state=present

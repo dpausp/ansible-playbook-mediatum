@@ -5,13 +5,22 @@
   hosts: all
   vars:
      admin_user_pubkey: "{{ lookup('file', admin_user_pubkeyfile) }}"
+  vars_files:
+    - access_vars.yml
   tasks:
     - name: install sudo
       apt: pkg=sudo state=present
 
-    - name: add admin user to sudo group
+    - name: create user
+      user: name={{ admin_user }}
+      notify: set user password
+
+    - name: create user / add admin user to sudo group
       user: name={{ admin_user }} groups=sudo append=true
 
     - name: set up SSH authorized key for admin user
       authorized_key: user={{ admin_user }} key='{{ admin_user_pubkey }}' state=present
 
+  handlers:
+    - name: set user password
+      user: name={{ admin_user }} password={{  admin_user_pass }}

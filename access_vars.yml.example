@@ -1,0 +1,5 @@
+admin_user: someuserwithsudorights
+admin_user_pubkeyfile: /home/someuserwithsudorights/.ssh/id_rsa.pub
+admin_user_pass: $6$IQMyf1Ee$si4TOim35njQfHyFTpl6QdrjSsOb4xkf0YLuTk2t9HinfgsWd4BrFMolXCuf2XieYV5TCKtcsUxEaoLH08Xp11
+# password is 'ansible'
+

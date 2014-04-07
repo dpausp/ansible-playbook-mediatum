@@ -17,8 +17,8 @@
   apt: pkg=python-mysqldb state=present
   when: mediatum_db_type == "mysql"
 
-- name: install python package for sqlite
-  apt: pkg=python-sqlite state=present
+- name: install sqlite3
+  apt: pkg=sqlite3 state=present
   when: mediatum_db_type == "sqlite"
 
 - name: install ffmpeg

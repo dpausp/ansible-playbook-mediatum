@@ -1,21 +1,39 @@
 ---
 # You can override default settings defined for the db and mediatum roles here
 
-#mediatum_db_type: mysql
-#mediatum_db_name: mediatum
-#mediatum_db_user: mediatum
+# use 'mysql' or 'sqlite'
+#mediatum_db_type: mysql # also defined in role defaults for db
+### MySQL settings (ignored for SQLite)
+#mediatum_db_user: mediatum # also defined in role defaults for db
+#mediatum_db_name: mediatum # also defined in role defaults for db
+
+### account / group settings
+# user for the mediaTUM server
+#mediatum_server_user: mediatum
+# admin user with write access to mediatum server files*
+# * can be set to same user as mediatum_server_user (less secure)
 #mediatum_admin_user: mediatum_adm
 #mediatum_group: mediatum
-#mediatum_server_user: mediatum
+
+### mediaTUM settings
 #mediatum_port: 8081
 #mediatum_basedir: /srv/mediatum/ # where the mediatum folder will reside
 #mediatum_media_dir: /srv/mediatum/media # where uploaded media files will be
 #mediatum_search_dir: /srv/mediatum/media/search
 #mediatum_logdir: /srv/mediatum/logging
+#mediatum_search_dir: /srv/mediatum/media/search
+#mediatum_logdir: /srv/mediatum/logging
+# smtp for outgoing mediaTUM mails
 #mediatum_smtp_server: somemail.example.com
+
+### other installation options
+# where to fetch mediatum sources
 #mediatum_git_repo: 'git://mediatumdev.ub.tum.de/mediatum.git'
+# git version to use (specify a commit, branch or tag)
 #mediatum_git_version: master
+# overwrite changes in mediatum-dir with git version?
 #mediatum_git_update: yes
+# deploy a development machine? (less secure settings)
 #mediatum_development: no
 
 

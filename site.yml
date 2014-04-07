@@ -1,5 +1,6 @@
 ---
 # This playbook deploys everything needed for mediatum
+- include: common.yml
 - include: db.yml
 - include: mediatum.yml
 

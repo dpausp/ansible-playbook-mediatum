@@ -21,7 +21,7 @@ Two installation variants are available:
 Installing Ansible
 ------------------
 
-Ansible controls the installation process and must be installed on a "control machine" (your workstation, for example).
+Ansible controls the installation process and must be installed on a "control machine" running Linux or MacOS X (your workstation, for example).
 Follow the installation instructions in the [Ansible documentation](http://docs.ansible.com/intro_installation.html#installing-the-control-machine)
 
 Example: a simple installation using git on a Debian / Ubuntu machine:
@@ -83,7 +83,8 @@ The mediaTUM port 8081 on localhost is forwarded to the VM, so the installation 
     http://localhost:8081
 
 
-VirtualBox and Vagrant must be installed on your control machine.
+VirtualBox and Vagrant (version 1.5+) must be installed on your control machine. 
+A Debian Wheezy 7.4 system is used for the VM. You can edit the `Vagrantfile` to choose another system. (for example, a 32bit Ubuntu)
 
 Just run:
 
@@ -96,4 +97,5 @@ This VM can be reached through SSH with:
 The VM can be removed with:
 
     vagrant destroy
+
 

@@ -9,27 +9,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "wheezy"
+  ### choose which system "box" to use
+  # Debian Wheezy
+  config.vm.box = "ffuenf/debian-7.4.0-amd64"
 
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  config.vm.box_url = "https://googledrive.com/host/0B83ZToJ3fGtDVC1DeVVzc3lkc0U/debian-7.4.0-amd64_virtualbox.box"
+  # Ubuntu 12.04 Precise Pangolin LTS 64bit
+  #config.vm.box = "hashicorp/precise64"
+
+  # Ubuntu 12.04 Precise Pangolin LTS 32bit
+  #config.vm.box = "hashicorp/precise32"
 
   ### network
+  # forward local port 8081 to port 8081 of the guest VM
   config.vm.network :forwarded_port, guest: 8081, host: 8081
   config.vm.hostname = "mediatum"
-
-  # If true, then any SSH connections made will enable agent forwarding.
-  # Default value: false
-  # config.ssh.forward_agent = true
-
-  ### sharing
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
 
   ### provisioning
   config.vm.provision :ansible do |ansible|

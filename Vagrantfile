@@ -24,13 +24,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8081, host: 8081
   config.vm.hostname = "mediatum"
 
-  ### provisioning
-  config.vm.provision :ansible do |ansible|
-        ansible.playbook = "site.yml"
-        ansible.groups = {
-          "mediatum" => ["default"],
-          "db" => ["default"]
-        }
-        ansible.verbose = "vvvv"
+  config.vm.define "inabox", primary: true do |guest|
+      ansible_command = "ansible-playbook -c local -e 'group=all db_group=all' /home/vagrant/playbook-mediatum/site.yml"
+      va_verbose = ENV["VA_VERBOSE"]
+      if va_verbose
+          ansible_command += " -" + va_verbose
+      end
+      guest.vm.synced_folder "./playbook-mediatum", "/home/vagrant/playbook-mediatum"
+      guest.vm.provision "shell", keep_color: true, path: "setup-ansible.sh"
+      guest.vm.provision "shell", keep_color: true, privileged: false, inline: ansible_command
+
+  end
+
+  config.vm.define "ext" do |guest|
+    guest.vm.provision :ansible do |ansible|
+      ansible.playbook = "playbook-mediatum/site.yml"
+      ansible.groups = {
+        "mediatum" => ["ext"],
+        "db" => ["ext"]
+      }
+      ansible.verbose = ENV["VA_VERBOSE"]
     end
+  end
 end

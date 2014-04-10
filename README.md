@@ -4,12 +4,12 @@ MediaTUM Installation Playbook
 [Ansible](http://ansible.com) Playbook + Vagrantfile for installing [mediaTUM](http://github.com/mediatum/mediatum/) with SQLite or MySQL.
 Three installation methods are available:
 
-* (A) universal Vagrant installer (recommended for first tests)
+* (A) universal [Vagrant](http://www.vagrantup.com) installer (recommended for first tests)
 * (B) Vagrant with local Ansible
 * (C) running the ansible playbook directly
 
 * (A) and (B) will install mediaTUM to a local virtual machine (VM) provided by VirtualBox and managed by Vagrant (purpose: testing only!)
-    * (A) installs everything to the VM and works on all operating systems: which are supported by Vagrant (Windows, MacOS, Linux)
+    * (A) installs everything to the VM and works on all operating systems which are supported by Vagrant (Windows, MacOS, Linux)
     * (B) uses Ansible (installed on your local machine) to provision a VM managed by Vagrant (Linux, MacOS)
 
 * (C) uses Ansible on your local machine to install mediaTUM on a remote host via SSH (purpose: production or testing) 
@@ -23,7 +23,8 @@ This Playbook is based on the Ubuntu instructions from [mediaTUM Sourceforge](ht
     * if you like to see what this playbook does, please look at the subdirectories of `playbook-mediatum/roles`. 
     * .yml files in `tasks/` directories contain the actual installation steps
     * if you like to know more about Ansible playbooks, please read the [Ansible Playbook Documentation](http://docs.ansible.com/playbooks.html)
-* The `Vagrantfile` contains instructions for Vagrant how to setup a test virtual machine with mediaTUM automatically. This is described below in _Vagrant VM Installation (B)_
+* The `Vagrantfile` contains instructions for Vagrant how to setup a test virtual machine with mediaTUM automatically. 
+     * This is described below in [(A)](#universal-vagrant-vm-installation-a) and [(B)](#using-ansible-for-vagrant-vm-provisioning-b).
 
 Playbook Preparation
 --------------------
@@ -34,7 +35,9 @@ In the `playbook-mediatum` subdirectory:
 The file can be destroyed after a successful installation. Keep the passwords in a safe place!
 * (optional) copy `group_vars/all.example` to `group_vars/all` and customize settings
 
-If the settings in `group_vars/all` are left unchanged, mediaTUM will be installed for user _mediatum_ and `mediatum_adm` as admin user with default paths under /srv
+If the settings in `group_vars/all` are left unchanged, mediaTUM will be installed with __mediatum__ as server user and __mediatum_adm__ as admin user with default paths under /srv
+
+
   
 Universal Vagrant VM Installation (A)
 -------------------------------------
@@ -51,6 +54,8 @@ Just run:
 The mediaTUM port 8081 on localhost is forwarded to the VM, so mediaTUM can be reached like this after some minutes:
 
     http://localhost:8081
+    
+You can login with _Administrator_ as username and _xadmin1_ as password.
 
 If something wents wrong in the provisioning (look for "Running provisioner" in the output) step, you can try running it again in debug mode:
 
@@ -89,7 +94,7 @@ Run the _source_ command above in new terminals before using the _ansible-playbo
 Using Ansible For Vagrant VM Provisioning (B)
 ---------------------------------------------
 
-_read Universal Vagrant VM Installation (A) first!_
+*read [Universal Vagrant VM Installation (A) ](#universal-vagrant-vm-installation-a) first!*
 
 This works like (A), but uses a locally installed Ansible and is a bit faster.
 A current Ansible (1.5)+ from Github is required. (see instructions above)
@@ -152,3 +157,5 @@ It's possible to specify the host group which is used on the cmdline:
     ansible-playbook -i hosts -e 'group=mediatum_new' site.yml -K
     
 You can add -vvvv to the command line to see more information if something wents wrong. SSH problems are the most common cause.
+
+After installation is completed, mediaTUM is running on Port 8081 (HTTP only). You can login with _Administrator_ as username and _xadmin1_ as password.

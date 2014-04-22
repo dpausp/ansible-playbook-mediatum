@@ -118,6 +118,8 @@
   template: src=mediatum.conf.j2 dest=/etc/supervisor/conf.d/mediatum.conf
   notify: restart supervisor
 
+#- name: pause before restarting mediaTUM
+#  pause: prompt='mediaTUM installation finished. If a process is running on port {{ mediatum_port }}, kill it now!'
 
 #- name: run checks
 #  command: chdir={{ mediatum_dir }} python bin/checkrequirements.py

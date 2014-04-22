@@ -1,6 +1,7 @@
 MediaTUM Installation Playbook
 ==============================
 
+
 [Ansible](http://ansible.com) Playbook + Vagrantfile for installing [mediaTUM](http://github.com/mediatum/mediatum/) with SQLite or MySQL.
 Three installation methods are available:
 
@@ -13,6 +14,13 @@ Three installation methods are available:
     * (B) uses Ansible (installed on your local machine) to provision a VM managed by Vagrant (Linux, MacOS)
 
 * (C) uses Ansible on your local machine to install mediaTUM on a remote host via SSH (purpose: production or testing) 
+
+TL;DR
+-----
+
+Install mediaTUM VM with:
+
+    git clone https://github.com/mediatum/ansible-playbook-mediatum && cd ansible-playbook-mediatum && vagrant up inabox
 
 Playbook Structure
 ------------------
@@ -31,12 +39,11 @@ Playbook Preparation
 
 In the `playbook-mediatum` subdirectory:
 
-* (optional) Create a file named `mediatum_db_pass` in the `playbook-mediatum` directory with the MySQL mediaTUM database password. Passwords must be kept secret! 
+* (optional) Create a file named `mediatum_db_pass` with the MySQL mediaTUM database password. Passwords must be kept secret! 
 The file can be destroyed after a successful installation. If you do not specify a password, it will be generated and written to the file
 * (optional) copy `group_vars/all.example` to `group_vars/all` and customize settings
 
-If the settings in `group_vars/all` are left unchanged, mediaTUM will be installed with __mediatum__ as server user and __mediatum_adm__ as admin user with default paths under /srv
-
+If the settings in `group_vars/all` are left unchanged, mediaTUM will be installed with __mediatum__ as server user and __mediatum_adm__ as admin user with default paths under `/srv`
 
   
 Universal Vagrant VM Installation (A)
@@ -55,7 +62,7 @@ The mediaTUM port 8081 on localhost is forwarded to the VM, so mediaTUM can be r
 
     http://localhost:8081
     
-You can login with _Administrator_ as username and _xadmin1_ as password.
+You can login with `Administrator` as username and `xadmin1` as password.
 
 If something wents wrong in the provisioning (look for "Running provisioner" in the output) step, you can try running it again in debug mode:
 
@@ -88,7 +95,7 @@ Example: a simple installation using git on a Debian / Ubuntu machine:
     git clone git://github.com/ansible/ansible.git
     source ansible/hacking/env-setup
 
-Run the _source_ command above in new terminals before using the _ansible-playbook_ command.
+Run the `source` command above in new terminals before using the `ansible-playbook` command.
 
 
 Using Ansible For Vagrant VM Provisioning (B)
@@ -158,4 +165,4 @@ It's possible to specify the host group which is used on the cmdline:
     
 You can add -vvvv to the command line to see more information if something wents wrong. SSH problems are the most common cause.
 
-After installation is completed, mediaTUM is running on Port 8081 (HTTP only). You can login with _Administrator_ as username and _xadmin1_ as password.
+After installation is completed, mediaTUM is running on Port 8081 (HTTP only). You can login with `Administrator` as username and `xadmin1` as password.

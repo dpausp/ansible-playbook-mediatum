@@ -1,0 +1,11 @@
+; {{ ansible_managed }}
+[program:mediatum]
+directory={{ mediatum_basedir }}/mediatum
+command=python start.py
+redirect_stderr=false
+stdout_logfile={{ mediatum_logdir }}/stdout.log
+stderr_logfile={{ mediatum_logdir }}/stderr.log
+user={{ mediatum_server_user }}
+autostart=true
+autorestart=true
+stopsignal=QUIT

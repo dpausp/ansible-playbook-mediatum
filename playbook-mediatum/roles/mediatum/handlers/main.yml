@@ -2,7 +2,11 @@
 # Handler for mediatum: handlers are called by other plays.
 # See http://ansible.cc/docs/playbooks.html for more information about handlers.
 
+- name: restart supervisor
+  service: name=supervisor state=restarted
+
 - name: restart mediaTUM
-  service: name=mediatum state=restarted
+  supervisorctl: name=mediatum state=restarted
+
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

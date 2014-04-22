@@ -43,7 +43,7 @@ In the `playbook-mediatum` subdirectory:
 The file can be destroyed after a successful installation. If you do not specify a password, it will be generated and written to the file
 * (optional) copy `group_vars/all.example` to `group_vars/all` and customize settings
 
-If the settings in `group_vars/all` are left unchanged, mediaTUM will be installed with __mediatum__ as server user and __mediatum_adm__ as admin user with default paths under `/srv`
+If the settings in `group_vars/all` are left unchanged, mediaTUM will be installed with __mediatum__ as server user and __mediatum_adm__ as admin user with default paths under `/srv`.
 
   
 Universal Vagrant VM Installation (A)
@@ -60,7 +60,7 @@ Just run:
 
 The mediaTUM port 8081 on localhost is forwarded to the VM, so mediaTUM can be reached like this after some minutes:
 
-    http://localhost:8081
+    https://localhost:8081
     
 You can login with `Administrator` as username and `xadmin1` as password.
 
@@ -165,4 +165,4 @@ It's possible to specify the host group which is used on the cmdline:
     
 You can add -vvvv to the command line to see more information if something wents wrong. SSH problems are the most common cause.
 
-After installation is completed, mediaTUM is running on Port 8081 (HTTP only). You can login with `Administrator` as username and `xadmin1` as password.
+After installation is completed, mediaTUM is running on Port 8081 (HTTPS only). You can login with `Administrator` as username and `xadmin1` as password.

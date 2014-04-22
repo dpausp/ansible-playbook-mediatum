@@ -38,5 +38,12 @@
 - name: install curl
   apt: pkg=curl state=present
 
+- name: enable history PgUp mapping
+  lineinfile: "dest=/etc/inputrc state=present line='\"\\e[5~\": history-search-backward'
+    regexp='e.5... history-search-backward'"
+
+- name: enable history PgDown mapping
+  lineinfile: "dest=/etc/inputrc state=present line='\"\\e[6~\": history-search-forward'
+    regexp='e.6... history-search-forward'"
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

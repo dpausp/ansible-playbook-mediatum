@@ -44,6 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "db" => ["ext"]
       }
       ansible.verbose = ENV["VA_VERBOSE"]
+      ansible.raw_arguments = ENV["VA_ARGS"]
     end
   end
 end

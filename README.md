@@ -54,13 +54,11 @@ This will install mediaTUM in a separate virtual machine. No changes will be mad
 VirtualBox and Vagrant (version 1.5+) must be installed.
 A Debian Wheezy 7.4 system is used for the VM. You can edit the `Vagrantfile` to choose another system type. (for example, a 32bit Ubuntu)
 
-Just run:
+Just run and wait some minutes:
 
     vagrant up inabox
 
-The mediaTUM port 8081 on localhost is forwarded to the VM, so mediaTUM can be reached like this after some minutes:
-
-    https://localhost:8081
+The mediaTUM port 8081 on localhost is forwarded to the VM, so mediaTUM can be reached at https://localhost:8081 after the installation
     
 You can login with `Administrator` as username and `xadmin1` as password.
 
@@ -165,4 +163,5 @@ It's possible to specify the host group which is used on the cmdline:
     
 You can add -vvvv to the command line to see more information if something wents wrong. SSH problems are the most common cause.
 
-After installation is completed, mediaTUM is running on Port 8081 (HTTPS only). You can login with `Administrator` as username and `xadmin1` as password.
+After installation is completed, mediaTUM is running on Port 443 with default settings (HTTPS only). 
+You can login with `Administrator` as username and `xadmin1` as password.

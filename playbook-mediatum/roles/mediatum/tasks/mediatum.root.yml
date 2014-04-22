@@ -1,0 +1,59 @@
+---
+##### mediatum tasks which run with sudo root
+
+### distribution-specific part
+
+- include: debian.root.yml
+
+### user / group setup
+
+- name: create mediatum group
+  group: name={{ mediatum_group }} state=present
+
+- name: create admin user / add to mediatum group
+  user: name={{ mediatum_admin_user }} groups={{ mediatum_group }} group={{ mediatum_group }} state=present append=true shell=/bin/bash
+  
+- name: give passwordless sudo to mediatum_adm (only for development machines!)
+  lineinfile: "dest=/etc/sudoers state=present 
+    regexp='^mediatum_adm ALL= NOPASSWD' 
+    line='mediatum_adm ALL= NOPASSWD: ALL'"
+  when: mediatum_development == "yes"
+
+- name: create mediatum server user
+  user: name={{ mediatum_server_user }} group={{ mediatum_group }} home={{ mediatum_basedir }} state=present
+
+### supervisor
+
+- name: install supervisord
+  apt: pkg=supervisor state=present
+  notify: restart supervisor
+
+- name: create supervisor group
+  group: name=supervisor state=present
+
+- name: add mediatum admin to supervisor group
+  user: name={{ mediatum_admin_user }} groups=supervisor state=present append=true
+
+- name: create supervisor config file
+  template: src=supervisord.conf.j2 dest=/etc/supervisor/supervisord.conf
+  notify: restart supervisor
+
+- name: create supervisor mediatum process config file
+  template: src=mediatum.conf.j2 dest=/etc/supervisor/conf.d/mediatum.conf
+  notify: restart supervisor
+
+### other 
+- name: create mediatum basedir
+  file: name={{ mediatum_basedir }} state=directory owner={{ mediatum_admin_user }} group={{ mediatum_group }} mode=0755
+  notify: restart mediaTUM
+
+- name: install python packages via pip
+  pip: name={{ item }} state=present
+  with_items:
+    - python-Levenshtein
+    - pymarc
+    - mollyZ3950
+    - requests
+    - pydot
+
+# vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

@@ -1,8 +1,10 @@
 ---
-# defaults for the mediatum role
+##### defaults for the mediatum role
 # if you want to override these variables, do it in group_vars/all
+
 # use 'mysql' or 'sqlite'
 mediatum_db_type: mysql # also defined in role defaults for db
+
 ### MySQL settings (ignored for SQLite)
 mediatum_db_user: mediatum # also defined in role defaults for db
 mediatum_db_name: mediatum # also defined in role defaults for db
@@ -15,9 +17,25 @@ mediatum_server_user: mediatum
 mediatum_admin_user: mediatum_adm
 mediatum_group: mediatum
 
+### nginx settings
+http_port: 80 # if a port is given here: just redirect to HTTPS
+https_port: 443
+nginx_dir: "{{ mediatum_basedir }}/nginx"
+always_reinstall_nginx: no # no keeps an existing nginx install
+server_name: "{{ ansible_fqdn }}"
+
+### nginx ssl settings
+ssl_create_self_signed_cert: yes # self signed cert and key will be generated if ssl_cert_filename doesn't exist
+ssl_certificate: "{{ nginx_dir }}/conf/ssl-mediatum_self-signed.crt"
+ssl_certificate_key: "{{ nginx_dir }}/conf/ssl-mediatum_self-signed.key"
+ssl_local_dhparam_file: # dhparam file will be generated on target host if nothing is given here
+#ssl_trusted_certificate is used for OCSP stapling and contains the intermediate CA certificates + root CA
+ssl_trusted_certificate:
+nginx_dns_resolver: "208.67.222.222 8.8.8.8" # needed for OCSP stapling, change it to your favorite DNS server
+
 ### mediaTUM settings
-mediatum_port: 8081
-mediatum_basedir: /srv/mediatum/ # where the mediatum folder will reside
+mediatum_port: 8081 # port for mediatum backend HTTP server
+mediatum_basedir: /srv/mediatum # where the mediatum folder will reside
 mediatum_media_dir: /srv/mediatum/media # where uploaded media files will be
 mediatum_search_dir: /srv/mediatum/media/search
 mediatum_logdir: /srv/mediatum/logging

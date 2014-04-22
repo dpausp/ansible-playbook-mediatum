@@ -1,5 +1,17 @@
 ; {{ ansible_managed }}
-[program:mediatum]
+[program:mediatum-nginx]
+directory={{ nginx_dir }}
+command={{ nginx_dir }}/sbin/nginx
+redirect_stderr=false
+stdout_logfile={{ mediatum_logdir }}/nginx_stdout.log
+stderr_logfile={{ mediatum_logdir }}/nginx_stderr.log
+autostart=true
+autorestart=true
+stopsignal=QUIT
+priority=200
+
+
+[program:mediatum-backend]
 directory={{ mediatum_basedir }}/mediatum
 command=python start.py
 redirect_stderr=false
@@ -9,3 +21,8 @@ user={{ mediatum_server_user }}
 autostart=true
 autorestart=true
 stopsignal=QUIT
+priority=100
+
+
+[group:mediatum]
+programs=mediatum-backend,mediatum-nginx

@@ -1,0 +1,37 @@
+---
+# install nginx from source, with SSL support
+- name: get nginx sources
+  get_url: url=http://nginx.org/download/nginx-1.4.7.tar.gz dest=/tmp/nginx.tar.gz
+
+- name: untar sources
+  command: chdir=/tmp/ tar xzf nginx.tar.gz
+
+- name: configure, make, install nginx
+  shell: chdir=/tmp/nginx-1.4.7 creates={{ nginx_dir }} {{ item }}
+  with_items:
+    - "./configure --prefix={{ nginx_dir }} --with-http_ssl_module"
+    - "make -j3"
+    - "make install"
+
+- name: copy dhparam file
+  copy: src={{ ssl_dhparam_file }} dest={{ nginx_dir }}/conf/dhparam
+  when: ssl_local_dhparam_file
+
+- name: create dhparam
+  command: creates={{ nginx_dir }}/conf/dhparam
+    openssl dhparam -out {{ nginx_dir }}/conf/dhparam 2048
+
+- name: setup nginx configuration files
+  template: src={{ item }}.j2 dest={{ nginx_dir }}/conf/{{ item }}
+  with_items: 
+    - nginx.conf
+    - ssl_params
+  notify: restart nginx
+
+- name: generate self signed certificate
+  command: "creates={{ ssl_certificate }} openssl req -x509 -nodes -days 365 -subj /CN={{ server_name }} -newkey rsa:2048 \ 
+    -keyout {{ ssl_certificate_key }} -out {{ ssl_certificate }}"
+  when: ssl_create_self_signed_cert
+
+
+# vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

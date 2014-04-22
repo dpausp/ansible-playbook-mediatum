@@ -5,8 +5,11 @@
 - name: restart supervisor
   service: name=supervisor state=restarted
 
+- name: restart nginx
+  supervisorctl: name=mediatum:mediatum-nginx state=restarted
+
 - name: restart mediaTUM
-  supervisorctl: name=mediatum state=restarted
+  supervisorctl: name=mediatum:mediatum-backend state=restarted
 
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

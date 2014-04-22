@@ -1,5 +1,5 @@
 *.pub
-secret_passwords.yml
+mediatum_db_pass
 hosts
 ansible.sqlite
 *~

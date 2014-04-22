@@ -5,8 +5,6 @@
   hosts: "{{ group }}"
   vars:
     group: mediatum
-  vars_files:
-    - secret_passwords.yml
   sudo: yes
   roles:
     - mediatum

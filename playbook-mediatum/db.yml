@@ -5,8 +5,6 @@
   hosts: "{{ db_group }}"
   vars: 
     db_group: db
-  vars_files:
-    - secret_passwords.yml
   roles:
     - db
   sudo: yes

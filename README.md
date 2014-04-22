@@ -31,8 +31,8 @@ Playbook Preparation
 
 In the `playbook-mediatum` subdirectory:
 
-* copy `secret_passwords.yml.example` to `secret_passwords.yml` and set passwords. Passwords must be kept secret! 
-The file can be destroyed after a successful installation. Keep the passwords in a safe place!
+* (optional) Create a file named `mediatum_db_pass` in the `playbook-mediatum` directory with the MySQL mediaTUM database password. Passwords must be kept secret! 
+The file can be destroyed after a successful installation. If you do not specify a password, it will be generated and written to the file
 * (optional) copy `group_vars/all.example` to `group_vars/all` and customize settings
 
 If the settings in `group_vars/all` are left unchanged, mediaTUM will be installed with __mediatum__ as server user and __mediatum_adm__ as admin user with default paths under /srv

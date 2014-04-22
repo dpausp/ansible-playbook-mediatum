@@ -11,6 +11,10 @@
 
 - name: install python package for mysql
   apt: pkg=python-mysqldb state=present
+ 
+- name: generate DB user password
+  set_fact: mediatum_db_pass={{ lookup('password', '../../../mediatum_db_pass') }}
+  when: mediatum_db_pass is not defined or not mediatum_db_pass
 
 - name: Create database for mediaTUM
   mysql_db: name={{ mediatum_db_name }} state=present

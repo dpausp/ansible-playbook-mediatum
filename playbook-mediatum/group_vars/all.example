@@ -2,9 +2,7 @@
 # You can override default settings defined for the db and mediatum roles here
 #ntpserver: de.pool.ntp.org
 
-# use 'mysql' or 'sqlite'
-#mediatum_db_type: mysql # also defined in role defaults for db
-### MySQL settings (ignored for SQLite)
+### MySQL settings
 #mediatum_db_user: mediatum # also defined in role defaults for db
 #mediatum_db_name: mediatum # also defined in role defaults for db
 

@@ -2,7 +2,7 @@ MediaTUM Installation Playbook
 ==============================
 
 
-[Ansible](http://ansible.com) Playbook + Vagrantfile for installing [mediaTUM](http://github.com/mediatum/mediatum/) with SQLite or MySQL.
+[Ansible](http://ansible.com) Playbook + Vagrantfile for installing [mediaTUM](http://github.com/mediatum/mediatum/) with integrated MySQL DB.
 Three installation methods are available:
 
 * (A) universal [Vagrant](http://www.vagrantup.com) installer (recommended for first tests)
@@ -123,7 +123,7 @@ The VM can be removed with:
 Using Ansible For Remote Installation (C)
 ----------------------------------------
 
-This will run the playbook from your local machine ("control machine") and install mediaTUM (+ mySQL Server if selected) on a remote host. 
+This will run the playbook from your local machine ("control machine") and install mediaTUM and a MySQL Server on a remote host. 
 The control machine must use some operating system which is supported by Ansible, Linux or MacOS, for example.
 
 The target machine should use a supported Linux distribution from the following list (similar debian-based systems could work, too. Try it!)

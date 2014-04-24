@@ -2,10 +2,6 @@
 ##### defaults for the mediatum role
 # if you want to override these variables, do it in group_vars/all
 
-# use 'mysql' or 'sqlite'
-mediatum_db_type: mysql # also defined in role defaults for db
-
-### MySQL settings (ignored for SQLite)
 mediatum_db_user: mediatum # also defined in role defaults for db
 mediatum_db_name: mediatum # also defined in role defaults for db
 

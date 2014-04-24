@@ -22,7 +22,7 @@ Install mediaTUM VM ([Vagrant 1.5](http://www.vagrantup.com) and [VirtualBox](ht
 
     git clone https://github.com/mediatum/ansible-playbook-mediatum && cd ansible-playbook-mediatum && vagrant up inabox
 
-and open https://localhost:8081
+and open [https://localhost:8081](https://localhost:8081)
 
 Playbook Structure
 ------------------

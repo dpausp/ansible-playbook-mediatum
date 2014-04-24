@@ -18,7 +18,7 @@ Three installation methods are available:
 TL;DR
 -----
 
-Install mediaTUM VM with:
+Install mediaTUM VM ([Vagrant 1.5](http://www.vagrantup.com) and [VirtualBox](https://www.virtualbox.org/) must be installed) with:
 
     git clone https://github.com/mediatum/ansible-playbook-mediatum && cd ansible-playbook-mediatum && vagrant up inabox
 

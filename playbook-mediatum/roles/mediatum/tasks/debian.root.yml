@@ -19,6 +19,14 @@
 
 - name: install ffmpeg
   apt: pkg=ffmpeg state=present
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int < 12
+        or ansible_distribution == "Debian" and ansible_distribution_major_version|int < 7
+  register: ffmpeg
+
+- name: install libav-tools
+  apt: pkg=libav-tools state=present
+  when: ffmpeg|skipped
+
 
 - name: install some media libs / tools
   apt: pkg={{ item }} state=present
@@ -35,5 +43,9 @@
   with_items:
     - libpcre3
     - libpcre3-dev
+
+- name: install libssl-dev
+  apt: pkg=libssl-dev state=present
+
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

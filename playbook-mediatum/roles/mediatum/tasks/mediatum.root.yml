@@ -52,8 +52,10 @@
   with_items:
     - python-Levenshtein
     - pymarc
-    - mollyZ3950
     - requests
     - pydot
+
+- name: install Z3950 package
+  pip: name=mollyZ3950 extra_args="--pre"
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

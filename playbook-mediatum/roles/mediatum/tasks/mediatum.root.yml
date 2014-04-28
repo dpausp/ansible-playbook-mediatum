@@ -48,12 +48,17 @@
   notify: restart mediaTUM
 
 - name: install python packages via pip
-  pip: name={{ item }} state=present
+  pip: name={{ item }} state=latest
   with_items:
+    - pip
     - python-Levenshtein
     - pymarc
     - requests
     - pydot
+    - reportlab
+    - python-ldap
+    - pyPdf
+    
 
 - name: install Z3950 package
   pip: name=mollyZ3950 extra_args="--pre"

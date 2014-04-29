@@ -56,8 +56,6 @@
     - requests
     - pydot
     - reportlab
-    - python-ldap
-    - pyPdf
     
 
 - name: install Z3950 package

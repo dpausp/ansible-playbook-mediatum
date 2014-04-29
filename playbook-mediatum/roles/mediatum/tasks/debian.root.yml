@@ -11,6 +11,7 @@
     - python-imaging
     - python-ldap
     - python-pip
+    - python-pypdf
 
 - name: install python package for mysql
   apt: pkg=python-mysqldb state=present

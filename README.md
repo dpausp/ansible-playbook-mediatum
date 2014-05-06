@@ -2,7 +2,7 @@ MediaTUM Installation Playbook
 ==============================
 
 
-[Ansible](http://ansible.com) Playbook + Vagrantfile for installing [mediaTUM](http://github.com/mediatum/mediatum/) with integrated MySQL DB.
+[Ansible](http://ansible.com) Playbook + Vagrantfile for installing [mediaTUM](http://github.com/mediatum/mediatum/) with MySQL server and nginx SSL reverse proxy.
 Three installation methods are available:
 
 * (A) universal [Vagrant](http://www.vagrantup.com) installer (recommended for first tests)
@@ -123,7 +123,7 @@ The VM can be removed with:
 Using Ansible For Remote Installation (C)
 ----------------------------------------
 
-This will run the playbook from your local machine ("control machine") and install mediaTUM and a MySQL Server on a remote host. 
+This will run the playbook from your local machine ("control machine") and install mediaTUM, nginx and a MySQL Server on a remote host. 
 The control machine must use some operating system which is supported by Ansible, Linux or MacOS, for example.
 
 The target machine should use a supported Linux distribution from the following list (similar debian-based systems could work, too. Try it!)
@@ -167,3 +167,24 @@ You can add -vvvv to the command line to see more information if something wents
 
 After installation is completed, mediaTUM is running on Port 443 with default settings (HTTPS only). 
 You can login with `Administrator` as username and `xadmin1` as password.
+
+
+Stopping / Starting mediaTUM
+----------------------------
+
+The mediaTUM process and the nginx reverse proxy are controlled by [Supervisor](http://supervisor.org). 
+`mediatum_adm_user` (default username: *mediatum\_adm*)
+
+To restart both processes, use:
+    
+    supervisorctl restart mediatum:
+
+To restart only the mediaTUM process:
+
+    supervisorctl restart mediatum:mediatum-backend
+
+To restart only the nginx process:
+
+    supervisorctl restart mediatum:mediatum-nginx
+
+

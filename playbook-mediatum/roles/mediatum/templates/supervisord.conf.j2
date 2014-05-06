@@ -2,8 +2,8 @@
 ; supervisor config file
 
 [unix_http_server]
-file=/var/run/supervisor.sock   ; (the path to the socket file)
-chmod=0700                       ; sockef file mode (default 0700)
+file=/var/run/supervisor.sock
+chmod=0770
 
 [supervisord]
 logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
@@ -28,7 +28,3 @@ serverurl=unix:///var/run/supervisor.sock ; use a unix:// URL  for a unix socket
 [include]
 files = /etc/supervisor/conf.d/*.conf
 
-[unix_http_server]
-file=/var/run/supervisor.sock
-chmod=0770
-chown=root:supervisor

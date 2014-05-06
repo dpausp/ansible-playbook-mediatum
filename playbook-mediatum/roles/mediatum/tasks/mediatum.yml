@@ -37,6 +37,10 @@
 - name: make search dir
   file: path={{ mediatum_search_dir }} state=directory mode=0770
 
+- name: read database user password
+  set_fact: mediatum_db_pass={{ lookup('file', '../../../mediatum_db_pass') }}
+  when: mediatum_db_pass is not defined or not mediatum_db_pass
+
 - name: create mediaTUM config file
   template: src=mediatum.cfg.j2 dest={{ mediatum_dir }}/mediatum.cfg mode=0750
 

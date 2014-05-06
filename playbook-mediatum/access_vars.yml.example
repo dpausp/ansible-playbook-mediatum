@@ -1,5 +1,11 @@
-admin_user: someuserwithsudorights
-admin_user_pubkeyfile: /home/someuserwithsudorights/.ssh/id_rsa.pub
+---
+# configuration for access.yml. Not needed for mediaTUM, just host preparation
+
+# admin_user will be created on the target host
+# easy way: use the same remote username as your local user account
+admin_user: yourusername 
+admin_user_pubkeyfile: /home/yourusername/.ssh/id_rsa.pub
 admin_user_pass: $6$IQMyf1Ee$si4TOim35njQfHyFTpl6QdrjSsOb4xkf0YLuTk2t9HinfgsWd4BrFMolXCuf2XieYV5TCKtcsUxEaoLH08Xp11
-# password is 'ansible'
+# example password is 'ansible'
+# a password can be generated with the command "mkpasswd --method=SHA-512", for example.
 

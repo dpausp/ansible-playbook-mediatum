@@ -91,7 +91,7 @@ Example: a simple installation using git on a Debian / Ubuntu machine:
     
     sudo apt-get install python-pip git # if not installed
     # installation for current user
-    pip install paramiko PyYAML jinja2 httplib2  --user --upgrade
+    pip install paramiko PyYAML jinja2 httplib2  --user --upgrade -I
     git clone git://github.com/ansible/ansible.git
     source ansible/hacking/env-setup
 
@@ -104,7 +104,7 @@ Using Ansible For Vagrant VM Provisioning (B)
 *read [Universal Vagrant VM Installation (A) ](#universal-vagrant-vm-installation-a) first!*
 
 This works like (A), but uses a locally installed Ansible and is a bit faster.
-A current Ansible (1.5)+ from Github is required. (see instructions above)
+A current Ansible (1.6+) is required. (see instructions above)
 The commands work like in (A), but you have to specify the machine name *ext* after each command instead
 
 Run:
@@ -132,23 +132,23 @@ The target machine should use a supported Linux distribution from the following 
 * Ubuntu 12.04 Server "Precise Pangolin" (64 / 32bit)
 
 More supported distributions will be added later on demand.
-A current Ansible (1.5)+ from Github is required.
+A current Ansible version (1.6+) is required.
 
 ### Setting Target Host
 
 In the `playbook-mediatum` subdirectory:
 
-* copy hosts.example to hosts and set target hosts in `[db]` (for mysql database) and `[mediatum]` sections.
+* copy hosts.example to hosts and set target host in `[db]` and `[mediatum]` (must be the same host in both) sections.
 
 ### Host Preparation
-The main playbook needs SSH access to an admin user who is able to sudo (with password is ok).
-You can use the helper playbook access.yml to create such an user with proper SSH setup on a freshly installed Debian machine.
+The mediaTUM ansible playbook needs SSH access to an remote admin user who is able to sudo (with password is ok).
+You can use the helper playbook `access.yml` to create such an user with proper SSH setup on a freshly installed Debian machine.
 
 * configure host for root SSH access via password, if neccessary
 * copy `access_vars.yml.example` to `access_vars.yml` and change the variables there
 * run access playbook:
 
-    ansible-playbook -i hosts access.yml -u root -k
+        ansible-playbook -i hosts access.yml -u root -k
 
 
 ### Running The Playbook
